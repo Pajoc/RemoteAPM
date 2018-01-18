@@ -2,6 +2,7 @@
 import { Component, OnInit} from '@angular/core';
 import { IProduct } from "./product";
 import { ProductService } from './product.service';
+import { error } from 'selenium-webdriver';
 
 
 @Component({
@@ -16,6 +17,8 @@ export class ProductListComponent implements OnInit{
     imageWidth: number=50;
     imageMargin: number=2;
     showImage: boolean=false;
+    errorMessage: string;
+
     _listFilter: string;
     get listFilter(): string{
         return this._listFilter;
@@ -46,7 +49,14 @@ export class ProductListComponent implements OnInit{
         this.showImage=!this.showImage;
     }
     ngOnInit(): void {
-        this.products=this._productService.getProducts();
-        this.filteredProducts=this.products;//Tirado do construtor senão lista vazia
+        //this.products=this._productService.getProducts();
+        this._productService.getProducts()
+        .subscribe(products => {
+            this.products= products;
+            this.filteredProducts=this.products;//tem de esperar que a linha anterior termine
+        },
+        error => this.errorMessage = <any> error);
+        
+        //this.filteredProducts=this.products;//Tirado do construtor senão lista vazia
     }
 }
