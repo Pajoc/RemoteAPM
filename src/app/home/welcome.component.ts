@@ -9,6 +9,6 @@ import {Component} from '@angular/core';
     `
 
 })
-export class AppComponent{
+export class WelcomeComponent{
     pageTitle: string ="Acme Managmente";
 }
